@@ -2,7 +2,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
 @model List<Link>
-
+@{
+	var @totalEntries = @Model.Sum(x => x.Entries);
+}
 
 <table id="linksTable" class="table table-striped mb-5">
 	<thead>
@@ -23,3 +25,35 @@
 		}
 	</tbody>
 </table>
+
+<div id="piechart" class="text-warning mt-2 mb-6"></div>
+
+@section Scripts {
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load('current', { 'packages': ['corechart'] });
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+			var dataArray = [['Code', 'Entries']];
+
+		@foreach (var link in Model)
+		{
+			<text>dataArray.push(['@($"{Context.FullDomaine()}/W/{link.Code}")', @link.Entries]); </text>
+		}
+			var data = google.visualization.arrayToDataTable(dataArray);
+			var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+			var options = {
+				backgroundColor: 'none',
+				width: 1000,
+				height: 400,
+				legend: {
+					textStyle: {
+						color: 'white'
+					}
+				}
+			};
+			chart.draw(data, options);
+		}
+	</script>
+}
