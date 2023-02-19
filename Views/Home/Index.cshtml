@@ -1,0 +1,29 @@
+@{
+	ViewData["Title"] = "Cut a link";
+}
+
+<section class="hero">
+	<h1 class="hero-title">SHORT<span class="hero-thin">LINKS</span></h1>
+	<p class="hero-sub">Paste a long URL. Get a 7-character link. Track every click.</p>
+
+	<form class="cutter" onsubmit="return false;">
+		<div class="field">
+			<label class="field-label" for="originalURL">LONG URL</label>
+			<input type="url" id="originalURL" class="input-min" placeholder="https://example.com/a/very/long/path" autocomplete="off" autofocus />
+		</div>
+		<div class="field">
+			<label class="field-label" for="shortURL">SHORT URL</label>
+			<input type="text" id="shortURL" class="input-min input-result" readonly placeholder="—" />
+		</div>
+		<div class="actions">
+			<button id="submitBtn" class="btn-min btn-solid" type="submit">SHORTEN</button>
+			<button id="copyBtn" class="btn-min" type="button">COPY</button>
+			<button id="cleanBTN" class="btn-min" type="button">CLEAR</button>
+		</div>
+		<p id="formNote" class="form-note" role="status"></p>
+	</form>
+</section>
+
+@section Scripts {
+	<script src="~/js/ApiConnection.js" asp-append-version="true"></script>
+}

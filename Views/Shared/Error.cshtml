@@ -1,0 +1,15 @@
+@model ErrorViewModel
+@{
+	ViewData["Title"] = "Error";
+}
+
+<div class="auth-wrap">
+	<div class="auth-card" style="text-align: center;">
+		<h1 class="auth-title">ERROR</h1>
+		<p class="auth-sub">Something went wrong while processing your request.</p>
+		@if (Model.ShowRequestId)
+		{
+			<p class="empty-note">Request ID: <code>@Model.RequestId</code></p>
+		}
+	</div>
+</div>

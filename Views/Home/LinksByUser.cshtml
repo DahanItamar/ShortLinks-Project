@@ -1,0 +1,42 @@
+@using UrlProjectV1.Models
+@model List<Link>
+@{
+	ViewData["Title"] = "My links";
+	var maxClicks = Model.Count > 0 ? Math.Max(1, Model.Max(l => l.Entries.Count)) : 1;
+}
+
+<section class="panel-page">
+	<h1 class="page-title">MY LINKS <span class="count">@Model.Count</span></h1>
+
+	@if (Model.Count == 0)
+	{
+		<p class="empty-note">No links yet. Cut one on the <a href="@Url.Action("Index", "Home")">home page</a> while signed in.</p>
+	}
+	else
+	{
+		<table class="table-min">
+			<thead>
+				<tr>
+					<th>SHORT</th>
+					<th>ORIGINAL</th>
+					<th class="col-clicks">CLICKS</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var url in Model)
+				{
+					<tr>
+						<td class="cell-code" data-label="SHORT"><a href="@($"{Context.FullDomaine()}/W/{url.Code}")" target="_blank" rel="noopener">/W/@url.Code</a></td>
+						<td class="cell-original" data-label="ORIGINAL" title="@url.OriginalURL">@url.OriginalURL</td>
+						<td class="cell-clicks" data-label="CLICKS">
+							<span class="clicks-n">@url.Entries.Count</span>
+							<span class="clicks-bar" aria-hidden="true"><span style="width: @(url.Entries.Count * 100 / maxClicks)%"></span></span>
+						</td>
+						<td class="cell-details" data-label=""><a asp-controller="Home" asp-action="LinkDetails" asp-route-shortURL="@url.Code">DETAILS</a></td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+</section>

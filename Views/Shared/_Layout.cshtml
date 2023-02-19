@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@(ViewData["Title"] != null ? $"{ViewData["Title"]} — ShortLinks" : "ShortLinks")</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="icon" type="image/png" href="/www.png" sizes="32x32" />
+</head>
+<body>
+	<header class="topbar">
+		<a class="wordmark" href="@Url.Action("Index", "Home")">SHORTLINKS</a>
+		<nav class="topnav">
+			@if (User.Identity?.IsAuthenticated == true)
+			{
+				<span class="nav-user">@User.Identity.Name</span>
+				<a class="nav-link-min" asp-controller="Home" asp-action="LinksByUser">MY LINKS</a>
+				<form asp-action="Logout" asp-controller="Google" method="post" class="nav-form">
+					<button type="submit" class="nav-link-min nav-btn">LOGOUT</button>
+				</form>
+			}
+			else
+			{
+				<a class="nav-link-min" href="/Identity/Account/Login">LOGIN</a>
+			}
+		</nav>
+	</header>
+
+	<main class="page@(Context.Request.Path.StartsWithSegments("/Identity") ? " identity-page" : "")">
+		@RenderBody()
+	</main>
+
+	<footer class="footer-min">
+		<a href="https://github.com/DahanItamar" target="_blank" rel="noopener">github.com/DahanItamar</a>
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

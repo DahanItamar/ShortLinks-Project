@@ -1,0 +1,36 @@
+@using ShortLinks.Models
+@model List<Entry>
+@{
+	ViewData["Title"] = "Click log";
+}
+
+<section class="panel-page">
+	<h1 class="page-title">CLICK LOG <span class="count">@Model.Count</span></h1>
+
+	@if (Model.Count == 0)
+	{
+		<p class="empty-note">No clicks yet. Share the short link and watch them arrive.</p>
+	}
+	else
+	{
+		<table class="table-min">
+			<thead>
+				<tr>
+					<th>WHEN (UTC)</th>
+					<th>VISITOR IP</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var entry in Model.OrderByDescending(e => e.EntryDate))
+				{
+					<tr>
+						<td data-label="WHEN (UTC)">@entry.EntryDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+						<td data-label="VISITOR IP">@entry.VisitorIP</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+
+	<p class="back-note"><a asp-controller="Home" asp-action="LinksByUser">← back to my links</a></p>
+</section>
