@@ -1,0 +1,25 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+@model List<Link>
+
+
+<table id="linksTable" class="table table-striped mb-5">
+	<thead>
+		<tr class="text-danger">
+			<th>Short Link</th>
+			<th>Original URL</th>
+			<th>Entries</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var url in Model)
+		{
+			<tr class="text-danger">
+				<td>@($"{Context.FullDomaine()}/W/{url.Code}")</td>
+				<td>@url.OriginalURL</td>
+				<td>@url.Entries</td>
+			</tr>
+		}
+	</tbody>
+</table>

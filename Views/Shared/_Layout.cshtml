@@ -1,0 +1,80 @@
+﻿@using System.Security.Claims
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - GoldenCutter</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/UrlProjectV1.styles.css" asp-append-version="true" />
+	<link rel="icon" type="image/png" href="/www.png" sizes="32x32" />
+</head>
+<body class="bg-dark">
+	<header>
+		<nav class="navbar navbar-expand-md navbar-light bg-transparent">
+			<div class="container-fluid">
+				<button class="navbar-toggler" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+					<ul class="navbar-nav">
+						@if (User.Identity.IsAuthenticated)
+						{
+							<li class="nav-item">
+								<a href="@Url.Action("Index", "Home")" class="nav-link text-warning">Hello, @User.Identity.Name!</a>
+							</li>
+						}
+
+						@if (User.Identity.IsAuthenticated)
+						{
+							<li class="nav-item">
+								<a class="nav-link text-warning" asp-controller="Home" asp-action="LinksByUser">Links</a>
+							</li>
+						}
+					</ul>
+					<ul class="navbar-nav">
+						@if (User.Identity.IsAuthenticated)
+						{
+							<li class="nav-item">
+								<form asp-action="Logout" asp-controller="Google" method="post">
+									<button type="submit" class="nav-link btn btn-link text-secondary">Logout</button>
+								</form>
+							</li>
+						}
+						@if (!User.Identity.IsAuthenticated)
+						{
+							<li class="nav-item">
+								<a class="nav-link text-warning" asp-controller="Google" asp-action="Login" asp-route-provider="Google">Login</a>
+							</li>
+						}
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+
+	<footer class="border-top footer text-muted rounded border-warning flex-column small fixed-bottom">
+		<a href="https://www.instagram.com/_itamardahan/" target="_blank"><i class="fa-brands fa-instagram text-warning ms-3"> instagram</i></a>
+		<a href="https://www.facebook.com/itamar.dahan.10" target="_blank"><i class="fa-brands fa-facebook text-warning ms-3"> facebook</i></a>
+		<h6 class="ms-3 mb-3">&copy; 2023 - Developed By: Itamar Dahan</h6>
+	</footer>
+
+	<style>
+		footer {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+		}
+	</style>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
