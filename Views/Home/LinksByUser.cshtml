@@ -34,14 +34,16 @@
 		function drawChart() {
 			var dataArray = [['Code', 'Entries']];
 
-		@foreach (var link in Model)
-		{
+			@foreach (var link in Model)
+			{
 			<text>dataArray.push(['@($"{Context.FullDomaine()}/W/{link.Code}")', @link.Entries]); </text>
-		}
+			}
+
 			var data = google.visualization.arrayToDataTable(dataArray);
 			var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 			var options = {
 				backgroundColor: 'none',
+				is3D: true,
 				width: 1000,
 				height: 400,
 				legend: {
