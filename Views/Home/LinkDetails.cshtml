@@ -1,0 +1,19 @@
+﻿@using ShortLinks.Models;
+@model List<Entry>
+<table id="linksDetailsTable" class="table table-striped mb-5 text-center">
+	<thead>
+		<tr class="text-danger">
+			<th>IP Address</th>
+			<th>Entry Date</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var entry in Model)
+		{
+			<tr class="text-danger">
+				<td>@entry.Public_IP_Address</td>
+				<td>@entry.EntryDate</td>
+			</tr>
+		}
+	</tbody>
+</table>
