@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ShortLinks.Models;
 using System.Diagnostics;
 using UrlProjectV1.Models;
 
@@ -36,6 +37,25 @@ namespace UrlProjectV1.Controllers
 					string json = await response.Content.ReadAsStringAsync();
 					List<Link> urls = JsonConvert.DeserializeObject<List<Link>>(json);
 					return View(urls);
+				}
+				else
+					return View("Error");
+			}
+		}
+
+		public async Task<IActionResult> LinkDetails(string shortURL)
+		{
+			using (HttpClient client = new HttpClient())
+			{
+				var userID = User.Identity.IsAuthenticated ? _userManager.GetUserId(User) : null;
+				if (userID == null)
+					return View("AccessDenied");
+				HttpResponseMessage response = await client.GetAsync($"{HttpContext.FullDomaine()}/W/Entries?shortURL={shortURL}");
+				if (response.IsSuccessStatusCode)
+				{
+					string json = await response.Content.ReadAsStringAsync();
+					List<Entry> entries = JsonConvert.DeserializeObject<List<Entry>>(json);
+					return View(entries);
 				}
 				else
 					return View("Error");

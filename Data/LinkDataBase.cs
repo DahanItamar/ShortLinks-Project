@@ -2,6 +2,7 @@
 #pragma warning disable CS8603
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ShortLinks.Models;
 using System.Text;
 using UrlProjectV1.Models;
 
@@ -45,7 +46,7 @@ namespace UrlProjectV1.Data
 			var value = await Links.FirstOrDefaultAsync(U => U.Code == shortURL);
 			if (value != null)
 			{
-				value.Entries++;
+				value.Entries.Add(new Entry { EntryDate = DateTime.UtcNow, Public_IP_Address = await Extensions.GetPublicIpAddress() });
 				await SaveChangesAsync();
 				return value.OriginalURL;
 			}
@@ -53,8 +54,13 @@ namespace UrlProjectV1.Data
 		}
 
 		public IEnumerable<Link> AllLinksByID(string userID)
-		{
-			return Links.Where(u => u.UserID.Equals(userID)).ToList();
-		}
+			=> Links.Include(l => l.Entries)
+				.Where(u => u.UserID.Equals(userID))
+				.ToList();
+
+		public IEnumerable<Entry> GetLinkDetails(string shortURL)
+			 => Links.Include(l => l.Entries)
+				.FirstOrDefault(l => l.Code == shortURL)
+				?.Entries;
 	}
 }

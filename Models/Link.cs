@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ShortLinks.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace UrlProjectV1.Models
 {
@@ -8,8 +9,8 @@ namespace UrlProjectV1.Models
 		public string Code { get; set; }
 		[Required]
 		public string OriginalURL { get; set; }
-		public int Entries { get; set; }
 		public DateTime Created { get; private set; } = DateTime.UtcNow;
 		public string? UserID { get; set; }
+		public virtual ICollection <Entry> Entries { get; set; } = new List<Entry> ();
 	}
 }

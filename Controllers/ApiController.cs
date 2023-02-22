@@ -5,6 +5,8 @@
 #pragma warning disable CS8604
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ShortLinks.Models;
+using System.Drawing;
 using UrlProjectV1.Data;
 
 namespace UrlProjectV1.Controllers
@@ -45,8 +47,10 @@ namespace UrlProjectV1.Controllers
 
 		[HttpGet("/W/Links")]
 		public IActionResult LinksByUser(string userID)
-		{
-			return Ok(_linkDataBase.AllLinksByID(userID));
-		}
+			=> Ok(_linkDataBase.AllLinksByID(userID));
+
+		[HttpGet("/W/Entries")]
+		public IActionResult LinkDetails(string shortURL)
+			=> Ok(_linkDataBase.GetLinkDetails(shortURL));
 	}
 }

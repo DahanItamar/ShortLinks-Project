@@ -17,13 +17,14 @@
 			<tr class="text-danger">
 				<td>@($"{Context.FullDomaine()}/W/{url.Code}")</td>
 				<td>@url.OriginalURL</td>
-				<td>@url.Entries</td>
+				<td><a asp-controller="Home" asp-action="LinkDetails" asp-route-shortURL="@url.Code">Link Details</a></td>
 			</tr>
 		}
 	</tbody>
 </table>
-
-<div id="piechart" class="text-warning mt-2 mb-6"></div>
+<div class="container mb-5">
+	<div id="piechart" class="text-warning" style="height: 400px;"></div>
+</div>
 
 @section Scripts {
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -34,12 +35,12 @@
 		function drawChart() {
 			var dataArray = [['Code', 'Entries']];
 
-			@foreach (var link in Model)
-			{
-			<text>dataArray.push(['@($"{Context.FullDomaine()}/W/{link.Code}")', @link.Entries]); </text>
-			}
+		@foreach (var link in Model)
+		{
+			<text>dataArray.push(['@($"{Context.FullDomaine()}/W/{link.Code}")', @link.Entries.Count]); </text>
+		}
 
-			var data = google.visualization.arrayToDataTable(dataArray);
+							var data = google.visualization.arrayToDataTable(dataArray);
 			var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 			var options = {
 				backgroundColor: 'none',
